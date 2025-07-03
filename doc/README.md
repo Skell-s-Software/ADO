@@ -4,3 +4,4 @@
 - X-launch (.bat | .bash)
 - launch (py)
 - main (py)
+- constantes (py)

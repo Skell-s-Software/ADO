@@ -1,0 +1,2 @@
+# Imagenes del Programa
+Aquí se guardan todas las imágenes a utilizar en la interfáz, se recomienda simplemente pegar sus imágenes aquí y renombrarlas como las presentes para así evitar problemas y necesidad de modificar el código. Igualmente puede modificar el nombre y ubicación de las imágenes mediante el archivo de constantes.

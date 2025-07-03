@@ -1,0 +1,1 @@
+# En este archivo estarán las constantes, como rutas, nombres de iconos, etc. que se utilizarán en el programa.
