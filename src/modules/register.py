@@ -25,8 +25,8 @@ def pagina_instalacion():
     with col1:
         a = st.text_input(label="Constrasena del Administrador",type='password', label_visibility="collapsed", placeholder="Contrasena")
     with col2:
-        if st.button("Guardar Contrasena del Administrador", type="primary"):
-            SQL_crearUsuario("ADMIN", a, None)
+        if st.button("Guardar Contrasena del Administrador", type="primary", use_container_width=True):
+            SQL_crearUsuario("ADMIN", a, cargo="ADMIN")
             caja.success("Administrador Registrado!, redirigiendo...")
             st.balloons()
             sleep(2)

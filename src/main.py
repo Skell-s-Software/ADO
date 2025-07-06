@@ -18,7 +18,7 @@ def configurar_sitio():
     st.set_page_config(
         page_title=TITULO_PAGINA,
         page_icon=ICONO_PAGINA,
-        layout="wide"
+        layout="centered"
     )
     #if 'despliegue' not in st.session_state:
     st.session_state.despliegue = verificar_instalacion()
@@ -39,6 +39,8 @@ def main():
     else: # En caso de que SI ESTE INSTALADO
         if 'usuario' not in st.session_state:
             pagina_login()
+        else:
+            st.write(f"Bienvenido al Sistema {st.session_state.usuario}")
 
     print(st.session_state)
 # Punto de Entrada Principal

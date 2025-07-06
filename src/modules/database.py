@@ -13,6 +13,7 @@ def SQL_usuarios_tabla(directorio: str = "src/database/ado.db"):
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT NOT NULL,
             pw TEXT NOT NULL,
+            cargo TEXT NOT NULL,
             UNIQUE(username))
     """)
     conexion.commit() # Guardar los cambios
@@ -60,16 +61,28 @@ def SQL_consultaGeneral(tabla: str, directorio: str = "src/database/ado.db"):
     conexion.close() # Cerrar la conexion
     return resultados  # Retornar todos los registros encontrados
 
-def SQL_crearUsuario(nombre: str, pw: str, token: str, directorio: str = "src/database/ado.db"):
+def SQL_crearUsuario(nombre: str, pw: str, token: str="token", cargo: str="Expulsar", directorio: str = "src/database/ado.db"):
     conexion = sql.connect(directorio)
     cursor = conexion.cursor()
-    if cursor.execute("SELECT username FROM usuarios WHERE username = 'ADMIN'").fetchall():
-        if token == cursor.execute("SELECT pw FROM usuarios WHERE username = 'ADMIN'").fetchall()[0]:
-            cursor.execute("INSERT OR IGNORE INTO usuarios (username, pw) VALUES (?, ?)", (nombre, pw,))
-            print("Usuario creado con token")
-    else:
-        cursor.execute("INSERT OR IGNORE INTO usuarios (username, pw) VALUES (?, ?)", (nombre, pw,))
+    # Verifica si existe el usuario ADMIN
+    admin_pw_row = cursor.execute("SELECT pw FROM usuarios WHERE username = 'ADMIN'").fetchone()
+    admin_exists = admin_pw_row is not None
+    if not admin_exists and nombre == 'ADMIN':
+        # Si no existe ADMIN y se está creando ADMIN, lo crea
+        cursor.execute("INSERT INTO usuarios (username, pw, cargo) VALUES (?, ?, ?)", (nombre, pw, cargo))
         cursor.execute("""UPDATE server SET valor = CAST(valor AS INTEGER) + 1 WHERE variable = 'despliegues'""")
-        print("Usuario creado sin tokens")
+        print("Usuario ADMIN creado")
+    elif admin_exists:
+        # Si ADMIN existe, verifica el token para crear cualquier usuario
+        admin_pw = admin_pw_row[0]
+        if token == admin_pw:
+            cursor.execute("INSERT INTO usuarios (username, pw, cargo) VALUES (?, ?, ?)", (nombre, pw, cargo))
+            print("Usuario creado con token")
+        else:
+            print("Token incorrecto, usuario no creado")
+    else:
+        print("Primero debe crearse el usuario ADMIN")
     conexion.commit()
+    cursor.close()
+    conexion.close()
     return None
