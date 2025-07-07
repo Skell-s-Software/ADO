@@ -7,11 +7,14 @@ import streamlit as st
 from constantes import TITULO_PAGINA
 from constantes import ICONO_PAGINA
 from constantes import BASE_DATOS
+from constantes import SIDEBAR_VARIANTES
 
 # Importacion de Modulos
+from streamlit_option_menu import option_menu as stmenu
 from modules.database import SQL_server_tabla, SQL_consultaEspecifica, SQL_consultaGeneral, SQL_usuarios_tabla
 from modules.register import pagina_instalacion
 from modules.login import pagina_login
+from modules.ayuda import pagina_ayuda
 
 # Funciones Internas
 def configurar_sitio():
@@ -38,9 +41,36 @@ def main():
         pagina_instalacion()
     else: # En caso de que SI ESTE INSTALADO
         if 'usuario' not in st.session_state:
-            pagina_login()
+            with st.sidebar:
+                ventana = stmenu(
+                    SIDEBAR_VARIANTES["LOGIN"]["TITULO"],
+                    SIDEBAR_VARIANTES["LOGIN"]["OPCIONES"],
+                    icons=SIDEBAR_VARIANTES["LOGIN"]["ICONOS"]
+                )
+            if ventana == "Principal":
+                pagina_login()
+            else:
+                pagina_ayuda()
         else:
-            st.write(f"Bienvenido al Sistema {st.session_state.usuario}")
+            if st.session_state.cargo == "Gestor Principal":
+                with st.sidebar:
+                    ventana = stmenu(
+                        SIDEBAR_VARIANTES["ADO"]["TITULO"],
+                        SIDEBAR_VARIANTES["ADO"]["OPCIONES"][st.session_state.cargo],
+                        icons=SIDEBAR_VARIANTES["ADO"]["ICONOS"][st.session_state.cargo],
+                    )
+                st.write(f"Bienvenido {st.session_state.usuario}, {st.session_state.cargo}")
+                if ventana == "Clientes":
+                    pass
+                elif ventana == "Inventario":
+                    pass
+                elif ventana == "Ventas":
+                    pass
+                elif ventana == "Chat":
+                    pass
+                elif ventana == "Notificaciones":
+                    pass 
+                st.title(ventana)
 
     print(st.session_state)
 # Punto de Entrada Principal

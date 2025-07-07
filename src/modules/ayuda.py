@@ -11,4 +11,4 @@ from constantes import TITULO_LOGIN
 from time import sleep
 
 def pagina_ayuda():
-    st.title("Seccion de Ayuda y Preguntas")
+    st.title("Sección de Ayuda y Preguntas")

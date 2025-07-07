@@ -6,10 +6,28 @@ ICONO_PAGINA = "src/img/iconTemporal.ico"
 BASE_DATOS = "src/database/ado.db"
 
 # Constantes del Register.py
-TITULO_REGISTRO = "Instalacion de Skell's ADO"
-TEXTO_REGISTRO = "Bienvenido a la instalacion de Skell's ADO, una herramienta para la gestion de proyectos y tareas. Necesito que me proporciones una CONTRASEÑA para poder crear un usuario administrador. Esta contraseña se utilizara para controlar las configuraciones importantes de la aplicacion, es importante que la guardes ya que en caso contrario, tendras que llamar al servicio tecnico para que restablezcan la contraseña."
+TITULO_REGISTRO = "Instalación de Skell's ADO"
+TEXTO_REGISTRO = "Bienvenido a la instalación de ***Skell's ADO***, una herramienta para la gestión de proyectos y tareas. Es necesario que proporciones una ***contraseña*** para crear el usuario administrador. Esta contraseña se utilizará para controlar las configuraciones importantes de la aplicación. ***Te recomendamos guardarla de forma segura,*** ya que, de lo contrario, tendrás que contactar al servicio técnico para restablecerla."
 
 # Constantes del Login.py
 TITULO_LOGIN = "Inicio de Usuario"
 ICONO_LOGIN = ""
 ICONO2_LOGIN = ""
+
+# Array Bidimensional con todas las variantes existentes de elementos para el SideBar
+SIDEBAR_VARIANTES = {
+    "LOGIN": {
+        "TITULO": "Opciones",
+        "OPCIONES": ["Principal", "Información y Ayuda"],
+        "ICONOS": ["house", "question-circle"]
+    },
+    "ADO": {
+        "TITULO": "Opciones",
+        "OPCIONES": {
+            "Gestor Principal": ["Clientes", "Inventario", "Ventas", "Chat", "Notificaciones", "Información y Ayuda"]
+        },
+        "ICONOS": {
+            "Gestor Principal": ["people", "boxes", "cash-coin", "chat-left-dots", "bell", "question-circle"]
+        }
+    }
+}
