@@ -52,7 +52,7 @@ def main():
             else:
                 pagina_ayuda()
         else:
-            if st.session_state.cargo == "Gestor Principal":
+            if st.session_state.cargo != None and st.session_state.usuario != None:
                 with st.sidebar:
                     ventana = stmenu(
                         SIDEBAR_VARIANTES["ADO"]["TITULO"],

@@ -24,10 +24,16 @@ SIDEBAR_VARIANTES = {
     "ADO": {
         "TITULO": "Opciones",
         "OPCIONES": {
-            "Gestor Principal": ["Clientes", "Inventario", "Ventas", "Chat Interno", "Notificaciones", "Información y Ayuda"]
+            "Gestor Principal": ["Clientes", "Inventario", "Ventas", "Chat Interno", "Notificaciones", "Información y Ayuda"],
+            "Gestor de Inventario": ["Inventario", "Chat Interno", "Notificaciones", "Información y Ayuda"],
+            "Punto de Venta": ["Clientes", "Ventas", "Chat Interno", "Notificaciones", "Información y Ayuda"],
+            "Gestor de Clientes": ["Clientes", "Ventas", "Chat Interno", "Notificaciones", "Información y Ayuda"]
         },
         "ICONOS": {
-            "Gestor Principal": ["people", "boxes", "cash-coin", "chat-left-dots", "bell", "question-circle"]
+            "Gestor Principal": ["people", "boxes", "cash-coin", "chat-left-dots", "bell", "question-circle"],
+            "Gestor de Inventario": ["boxes", "chat-left-dots", "bell", "question-circle"],
+            "Punto de Venta": ["people","cash-coin", "chat-left-dots", "bell", "question-circle"],
+            "Gestor de Clientes": ["people", "cash-coin", "chat-left-dots", "bell", "question-circle"]
         }
     }
 }
