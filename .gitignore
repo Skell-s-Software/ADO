@@ -1,6 +1,6 @@
 .venv/
 src/test.py
 __pycache__/
-src/database/ado.db
+/src/database/ado.db
 node/node_modules/
 DB Browser for SQLite.lnk

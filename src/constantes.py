@@ -24,7 +24,7 @@ SIDEBAR_VARIANTES = {
     "ADO": {
         "TITULO": "Opciones",
         "OPCIONES": {
-            "Gestor Principal": ["Clientes", "Inventario", "Ventas", "Chat", "Notificaciones", "Información y Ayuda"]
+            "Gestor Principal": ["Clientes", "Inventario", "Ventas", "Chat Interno", "Notificaciones", "Información y Ayuda"]
         },
         "ICONOS": {
             "Gestor Principal": ["people", "boxes", "cash-coin", "chat-left-dots", "bell", "question-circle"]

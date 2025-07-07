@@ -13,7 +13,7 @@ from constantes import SIDEBAR_VARIANTES
 from streamlit_option_menu import option_menu as stmenu
 from modules.database import SQL_server_tabla, SQL_consultaEspecifica, SQL_consultaGeneral, SQL_usuarios_tabla
 from modules.register import pagina_instalacion
-from modules.login import pagina_login
+from modules.login import pagina_login, dialog_logout
 from modules.ayuda import pagina_ayuda
 
 # Funciones Internas
@@ -59,18 +59,29 @@ def main():
                         SIDEBAR_VARIANTES["ADO"]["OPCIONES"][st.session_state.cargo],
                         icons=SIDEBAR_VARIANTES["ADO"]["ICONOS"][st.session_state.cargo],
                     )
+                    LOGUOT = st.button(
+                        "Cerrar Sesion",
+                        type = 'primary',
+                        use_container_width = True,
+                        icon = ':material/logout:'
+                    )
+                    if LOGUOT:
+                        dialog_logout()
                 st.write(f"Bienvenido {st.session_state.usuario}, {st.session_state.cargo}")
+                if ventana != "Información y Ayuda":
+                    st.title(ventana)
+                else:
+                    pagina_ayuda()
                 if ventana == "Clientes":
                     pass
                 elif ventana == "Inventario":
                     pass
                 elif ventana == "Ventas":
                     pass
-                elif ventana == "Chat":
+                elif ventana == "Chat Interno":
                     pass
                 elif ventana == "Notificaciones":
-                    pass 
-                st.title(ventana)
+                    pass
 
     print(st.session_state)
 # Punto de Entrada Principal

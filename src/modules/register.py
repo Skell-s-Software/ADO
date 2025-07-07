@@ -23,9 +23,9 @@ def pagina_instalacion():
     caja = st.container(border=False)
     col1, col2 = st.columns(2, vertical_alignment="bottom")
     with col1:
-        a = st.text_input(label="Constraseña del Administrador",type='password', label_visibility="collapsed", placeholder="Contrasena")
+        a = st.text_input(label="Constraseña del Administrador",type='password', label_visibility="collapsed", placeholder="Contraseña")
     with col2:
-        if st.button("Guardar Contrasena del Administrador", type="primary", use_container_width=True):
+        if st.button("Guardar Contraseña del Administrador", type="primary", use_container_width=True):
             SQL_crearUsuario("ADMIN", a, cargo="ADMIN")
             caja.success("¡Administrador Registrado!, redirigiendo...")
             st.balloons()
