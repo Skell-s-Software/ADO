@@ -41,6 +41,19 @@ def SQL_server_tabla(directorio: str ="src/database/ado.db"):
     cursor.close() # Cerrar el cursor
     conexion.close() # Cerrar la conexion
 
+def SQL_chat_tabla(directorio: str = "src/database/ado.db"):
+    conexion = sql.connect(directorio)
+    cursor = conexion.cursor()
+    # Crear la tabla para almacenar mensajes
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS chat (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            usuario TEXT NOT NULL,
+            mensaje TEXT NOT NULL)            
+    """)
+    cursor.close()
+    conexion.close()
+
 def SQL_consultaEspecifica(parametro: str, condicion: str, tabla: str, columna: str, directorio: str = "src/database/ado.db"):
     conexion = sql.connect(directorio)
     cursor = conexion.cursor()
@@ -86,3 +99,11 @@ def SQL_crearUsuario(nombre: str, pw: str, token: str="token", cargo: str="Expul
     cursor.close()
     conexion.close()
     return None
+
+def SQL_guardarMensaje(user: str, mensaje: str, directorio: str = "src/database/ado.db"):
+    conexion = sql.connect(directorio)
+    cursor = conexion.cursor()
+    cursor.execute("INSERT INTO chat (usuario, mensaje) VALUES (?, ?)", (user, mensaje))
+    conexion.commit()
+    cursor.close()
+    conexion.close()

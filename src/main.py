@@ -21,6 +21,7 @@ from tart import logo
 from modules.clientes import CRegistro, CListado, CEdicion
 from modules.inventario import INVregistro, INVlista, INVeditar
 from modules.ventas import VENventas#, VEN, VEN
+from modules.chat import CHAT
 
 # Funciones Internas
 def configurar_sitio():
@@ -92,7 +93,7 @@ def main():
                     TAB = True
                 elif ventana == "Chat Interno":
                     TAB = False
-                    st.title(ventana)
+                    CHAT()
                 elif ventana == "Notificaciones":
                     TAB = False
                     st.title(ventana)
