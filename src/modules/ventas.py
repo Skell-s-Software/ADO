@@ -4,6 +4,9 @@
 import streamlit as st
 import pandas as pd
 
+# Importacion de Modulos
+from modules.database import SQL_consultaFila
+
 # Interfaz de Realizar Venta
 def VENventas():
     cedula = st.text_input(
@@ -13,20 +16,21 @@ def VENventas():
             icon=":material/id_card:",
         )
     if cedula != "":
-        if len(cedula) >= 5:
+        st.session_state.clienteVenta = SQL_consultaFila(cedula, 'cedula', 'clientes')
+        if st.session_state.clienteVenta:
             with st.container(border=True):
                 st.subheader("Datos del Cliente")
                 col1A, col1B = st.columns(2, vertical_alignment='bottom')
                 with col1A:
                     st.text_input(
                         "Nombre del Cliente",
-                        value=None,
+                        value=st.session_state.clienteVenta[3],
                         disabled=True
                     )
                 with col1B:
                     st.text_input(
                         "Teléfono del Cliente",
-                        value=None,
+                        value=st.session_state.clienteVenta[4],
                         disabled=True
                     )
             with st.container(border=True):

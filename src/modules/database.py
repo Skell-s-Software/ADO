@@ -54,6 +54,24 @@ def SQL_chat_tabla(directorio: str = "src/database/ado.db"):
     cursor.close()
     conexion.close()
 
+def SQL_clientes_tabla(directorio: str = "src/database/ado.db"):
+    conexion = sql.connect(directorio)
+    cursor = conexion.cursor()
+    # Crear tabla para guardar los clientes
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS clientes(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            cedula INTEGER NOT NULL,
+            codigoSocio INTEGER,
+            nombre TEXT NOT NULL,
+            telefono TEXT NOT NULL,
+            correo TEXT,
+            direccion TEXT,
+            descripcion TEXT)
+    """)
+    cursor.close()
+    conexion.close()
+
 def SQL_consultaEspecifica(parametro: str, condicion: str, tabla: str, columna: str, directorio: str = "src/database/ado.db"):
     conexion = sql.connect(directorio)
     cursor = conexion.cursor()
@@ -63,6 +81,16 @@ def SQL_consultaEspecifica(parametro: str, condicion: str, tabla: str, columna: 
     cursor.close() # Cerrar el cursor
     conexion.close() # Cerrar la conexion
     return resultado[0] if resultado else None  # Retornar el valor encontrado o None si no existe
+
+def SQL_consultaFila(parametro: str, condicion: str, tabla: str, directorio: str = "src/database/ado.db"):
+    conexion = sql.connect(directorio)
+    cursor = conexion.cursor()
+    # Consultar el valor de la variable en la tabla
+    cursor.execute(f"SELECT * FROM {tabla} WHERE {condicion} = ?", (parametro,))
+    resultado = cursor.fetchone()
+    cursor.close() # Cerrar el cursor
+    conexion.close() # Cerrar la conexion
+    return resultado if resultado else None  # Retornar el valor encontrado o None si no existe
 
 def SQL_consultaGeneral(tabla: str, directorio: str = "src/database/ado.db"):
     conexion = sql.connect(directorio)
@@ -104,6 +132,22 @@ def SQL_guardarMensaje(user: str, mensaje: str, directorio: str = "src/database/
     conexion = sql.connect(directorio)
     cursor = conexion.cursor()
     cursor.execute("INSERT INTO chat (usuario, mensaje) VALUES (?, ?)", (user, mensaje))
+    conexion.commit()
+    cursor.close()
+    conexion.close()
+
+def SQL_crearCliente(cedula: int, nombre: str, telefono: str, correo: str = None, direccion: str = None, descripcion: str = None, codigo: str = None, directorio: str = "src/database/ado.db"):
+    conexion = sql.connect(directorio)
+    cursor = conexion.cursor()
+    cursor.execute("INSERT INTO clientes (cedula, codigoSocio, nombre, telefono, correo, direccion, descripcion) VALUES (?, ?, ?, ?, ?, ?, ?)", (cedula, codigo, nombre, telefono, correo, direccion, descripcion))
+    conexion.commit()
+    cursor.close()
+    conexion.close()
+
+def SQL_edicionEspecifica(seleccion: str, dato: str, cedula: str, directorio: str = "src/database/ado.db"):
+    conexion = sql.connect(directorio)
+    cursor = conexion.cursor()
+    cursor.execute(f"UPDATE clientes SET {seleccion.lower().replace(" ", "")} = ? WHERE cedula = ?", (dato, cedula))
     conexion.commit()
     cursor.close()
     conexion.close()

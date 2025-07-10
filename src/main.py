@@ -15,6 +15,7 @@ from modules.database import SQL_server_tabla, SQL_consultaEspecifica, SQL_consu
 from modules.register import pagina_instalacion
 from modules.login import pagina_login, dialog_logout
 from modules.ayuda import pagina_ayuda
+from time import sleep
 from tart import logo
 
 # Importacion de Modulos de Funcionalidad
@@ -38,6 +39,16 @@ def verificar_instalacion():
     SQL_server_tabla(BASE_DATOS)
     # print(SQL_consultaEspecifica('despliegues', 'variable', 'server', 'valor', BASE_DATOS))
     return int(SQL_consultaEspecifica('despliegues', 'variable', 'server', 'valor', BASE_DATOS))
+def verificar_nuevos_mensajes():
+    mensajes_db = SQL_consultaGeneral('chat')
+    if 'chat' not in st.session_state:
+        st.session_state.chat = mensajes_db.copy()
+    elif len(mensajes_db) > len(st.session_state.chat):
+        nuevos = mensajes_db[len(st.session_state.chat):]
+        for mensaje in nuevos:
+            if mensaje[1] != st.session_state.usuario:
+                st.toast(f"Nuevo mensaje de {mensaje[1]}: {mensaje[2]}")
+        st.session_state.chat = mensajes_db.copy()
 
 def main():
     logo()
@@ -59,6 +70,7 @@ def main():
             else:
                 pagina_ayuda()
         else:
+            verificar_nuevos_mensajes()
             if st.session_state.cargo != None and st.session_state.usuario != None:
                 with st.sidebar:
                     ventana = stmenu(
@@ -82,14 +94,20 @@ def main():
                 if ventana == "Clientes":
                     TITULO_TAB = "Gestión de Clientes"
                     OPCIONES_TAB = ['Registrar Clientes', 'Lista de Clientes', 'Edición de Clientes']
+                    ICONOS_TAB = ['person-add', 'person-lines-fill', 'pencil']
+                    ICONO_MENU_TAB = 'people'
                     TAB = True
                 elif ventana == "Inventario":
                     TITULO_TAB = "Gestión de Inventario"
                     OPCIONES_TAB = ['Registrar Producto', 'Lista de Productos', 'Edición de Productos']
+                    ICONOS_TAB = ['inboxes', 'view-list', 'pencil']
+                    ICONO_MENU_TAB = 'boxes'
                     TAB = True
                 elif ventana == "Ventas":
                     TITULO_TAB = "Punto de Venta"
                     OPCIONES_TAB = ['Realizar Venta', 'Historial de Ventas', 'Pagos Pendientes']
+                    ICONOS_TAB = ['wallet', 'list-task', 'clipboard-data']
+                    ICONO_MENU_TAB = 'cash-coin'
                     TAB = True
                 elif ventana == "Chat Interno":
                     TAB = False
@@ -102,8 +120,8 @@ def main():
                         TITULO_TAB,
                         OPCIONES_TAB,
                         default_index = 1,
-                        menu_icon = 'people',
-                        icons = ['person-add', 'person-lines-fill', 'pencil'],
+                        menu_icon = ICONO_MENU_TAB,
+                        icons = ICONOS_TAB,
                         orientation = 'horizontal'
                     )
                     if tab == "Registrar Clientes":
@@ -124,7 +142,6 @@ def main():
                         pass
                     elif tab == "Pagos Pendientes":
                         pass
-
     # print(st.session_state)
 # Punto de Entrada Principal
 if __name__ == "__main__":

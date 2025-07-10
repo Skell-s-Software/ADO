@@ -6,8 +6,12 @@ import pandas as pd
 import io
 from time import sleep
 
+# Importacion de modulos
+from modules.database import SQL_clientes_tabla, SQL_consultaGeneral, SQL_crearCliente, SQL_consultaFila, SQL_edicionEspecifica
+
 # Interfaz de Registro del Cliente en el Sistema
 def CRegistro():
+    SQL_clientes_tabla()
     with st.form("registro", clear_on_submit = True, enter_to_submit = False):
         # Cedula del Cliente
         cedula = st.text_input(
@@ -66,22 +70,51 @@ def CRegistro():
             use_container_width = True,
             icon = ':material/person_add:'
         )
+        if boton:
+            if cedula and codigoSocio and nombre and telefono:
+                if len(cedula) > 6 and len(telefono) > 10:
+                    SQL_crearCliente(cedula, nombre, telefono, correo, direccion, descripcion, codigoSocio)
+                    st.success("¡Cliente registrado exitosamente!")
+                else:
+                    st.error("¡Los datos ingresados no son validos!")
+            else:
+                st.error("¡Faltan datos por llenar!")
 
 # Interfaz de Listado de Clientes en el Sistema
 def CListado():
+    SQL_clientes_tabla()
+    datos = SQL_consultaGeneral('clientes') 
     tabla = pd.DataFrame(
-        None,
-        columns = ['Cedula', 'Codigo Socio', 'Nombre', 'Telefono', 'Correo', 'Direccion', 'Descripcion']
+        datos,
+        columns = ['id', 'Cedula', 'Codigo Socio', 'Nombre', 'Telefono', 'Correo', 'Direccion', 'Descripcion']
     )
     # Mostrar Tabla de Clientes
     st.dataframe(
-        tabla,
+        tabla[['Cedula', 'Codigo Socio', 'Nombre', 'Telefono', 'Correo', 'Direccion', 'Descripcion']],
         use_container_width = True,
         hide_index = True,
     )
+    # Sistema de descarga de tabla de excel
+    output = io.BytesIO()
+    try:
+        with pd.ExcelWriter(output, engine='openpyxl') as writer:
+            tabla.to_excel(writer, index=False, sheet_name='Lista')
+        excel_data = output.getvalue()
+        st.download_button(
+            label="Descargar Listado de Clientes como Archivo de Excel",
+            data=excel_data,
+            file_name="Listado_de_Clientes.xlsx",
+            use_container_width= True,
+            type = 'primary',
+            icon = ':material/save:'
+        )
+    except Exception as e:
+        st.error(f"Ocurrió un error al preparar el archivo Excel para descarga: {e}")
+        st.write("Asegúrate de tener `openpyxl` instalado (`pip install openpyxl`)")
 
 # Interfaz de Edicion de Clientes en el Sistema
 def CEdicion():
+    SQL_clientes_tabla()
     with st.form("buscar", border = False):
         # Cedula del Cliente a buscar
         cedula = st.text_input(
@@ -99,6 +132,13 @@ def CEdicion():
             type = 'primary',
             icon = ':material/search:'
         )
+        if boton:
+            if cedula:
+                cliente = SQL_consultaFila(cedula, 'cedula', 'clientes')
+                if cliente:
+                    st.session_state.clienteEdicion = cliente
+            else:
+                st.warning("Ingrese una cedula valida")
     botonEliminar = st.button(
         "Eliminar Cliente de la Base",
         help = "Al presionar este boton el sistema buscara la cedula del cliente en la base para su edicion.",
@@ -106,3 +146,53 @@ def CEdicion():
         type = 'secondary',
         icon = ':material/delete:'
     )
+    if 'clienteEdicion' in st.session_state and st.session_state.clienteEdicion and cedula:
+        datos = [st.session_state.clienteEdicion]
+        tabla = pd.DataFrame(
+            datos,
+            columns = ['id', 'Cedula', 'Codigo Socio', 'Nombre', 'Telefono', 'Correo', 'Direccion', 'Descripcion']
+        )
+        st.dataframe(
+            tabla[['Cedula', 'Codigo Socio', 'Nombre', 'Telefono', 'Correo', 'Direccion', 'Descripcion']],
+            use_container_width = True,
+            hide_index = True,
+        )
+        # Formulario de Edicion
+        with st.form("editar", clear_on_submit = True, enter_to_submit = False):
+            col1, col2 = st.columns(2, vertical_alignment='bottom')
+            with col1:
+                seleccion = st.selectbox(
+                    "Dato a modificar",
+                    [
+                        'Cedula',
+                        'Codigo Socio',
+                        'Nombre',
+                        'Telefono',
+                        'Correo',
+                        'Direccion',
+                        'Descripcion'
+                    ],
+                    help = "Seleccione el campo que modificara del Cliente",
+                    accept_new_options = False,
+                )
+            with col2:
+                dato = st.text_input(
+                    "Dato modificado",
+                    help = "Escriba aqui el dato modificado",
+                    placeholder = "Dato Modificado",
+                    icon = ':material/edit:'
+                )
+            boton = st.form_submit_button(
+                "Actualizar dato del Cliente",
+                help = "Al presinar este boton, se editara la informacion actual del cliente con la informacion proporcionada por usted.",
+                icon = ':material/edit:',
+                type = 'primary',
+                use_container_width = True
+            )
+            if boton:
+                if dato:
+                    SQL_edicionEspecifica(seleccion, dato, cedula)
+                    st.success("Edicion exitosa")
+                    sleep(1)
+                    st.session_state.clienteEdicion = SQL_consultaFila(cedula, 'cedula', 'clientes')
+                    st.rerun()
