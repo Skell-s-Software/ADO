@@ -15,6 +15,12 @@ from modules.database import SQL_server_tabla, SQL_consultaEspecifica, SQL_consu
 from modules.register import pagina_instalacion
 from modules.login import pagina_login, dialog_logout
 from modules.ayuda import pagina_ayuda
+from tart import logo
+
+# Importacion de Modulos de Funcionalidad
+from modules.clientes import CRegistro, CListado, CEdicion
+from modules.inventario import INVregistro, INVlista, INVeditar
+from modules.ventas import VENventas#, VEN, VEN
 
 # Funciones Internas
 def configurar_sitio():
@@ -25,15 +31,15 @@ def configurar_sitio():
     )
     #if 'despliegue' not in st.session_state:
     st.session_state.despliegue = verificar_instalacion()
-
 def verificar_instalacion():
     # Verificar si la base de datos existe y si la tabla 'server' tiene al menos un despliegue
     SQL_usuarios_tabla(BASE_DATOS)
     SQL_server_tabla(BASE_DATOS)
-    print(SQL_consultaEspecifica('despliegues', 'variable', 'server', 'valor', BASE_DATOS))
+    # print(SQL_consultaEspecifica('despliegues', 'variable', 'server', 'valor', BASE_DATOS))
     return int(SQL_consultaEspecifica('despliegues', 'variable', 'server', 'valor', BASE_DATOS))
 
 def main():
+    logo()
     # Configuracion del Sitio
     configurar_sitio()
     # Verificar la Instalacion
@@ -68,22 +74,57 @@ def main():
                     if LOGUOT:
                         dialog_logout()
                 st.write(f"Bienvenido {st.session_state.usuario}, {st.session_state.cargo}")
-                if ventana != "Información y Ayuda":
-                    st.title(ventana)
-                else:
+                TAB = None
+                if ventana == "Información y Ayuda":
                     pagina_ayuda()
+                    TAB = False
                 if ventana == "Clientes":
-                    pass
+                    TITULO_TAB = "Gestión de Clientes"
+                    OPCIONES_TAB = ['Registrar Clientes', 'Lista de Clientes', 'Edición de Clientes']
+                    TAB = True
                 elif ventana == "Inventario":
-                    pass
+                    TITULO_TAB = "Gestión de Inventario"
+                    OPCIONES_TAB = ['Registrar Producto', 'Lista de Productos', 'Edición de Productos']
+                    TAB = True
                 elif ventana == "Ventas":
-                    pass
+                    TITULO_TAB = "Punto de Venta"
+                    OPCIONES_TAB = ['Realizar Venta', 'Historial de Ventas', 'Pagos Pendientes']
+                    TAB = True
                 elif ventana == "Chat Interno":
-                    pass
+                    TAB = False
+                    st.title(ventana)
                 elif ventana == "Notificaciones":
-                    pass
+                    TAB = False
+                    st.title(ventana)
+                if TAB:
+                    tab = stmenu(
+                        TITULO_TAB,
+                        OPCIONES_TAB,
+                        default_index = 1,
+                        menu_icon = 'people',
+                        icons = ['person-add', 'person-lines-fill', 'pencil'],
+                        orientation = 'horizontal'
+                    )
+                    if tab == "Registrar Clientes":
+                        CRegistro()
+                    elif tab == "Lista de Clientes":
+                        CListado()
+                    elif tab == "Edición de Clientes":
+                        CEdicion()
+                    elif tab == "Registrar Producto":
+                        INVregistro()
+                    elif tab == "Lista de Productos":
+                        INVlista()
+                    elif tab == "Edición de Productos":
+                        INVeditar()
+                    elif tab == "Realizar Venta":
+                        VENventas()
+                    elif tab == "Historial de Ventas":
+                        pass
+                    elif tab == "Pagos Pendientes":
+                        pass
 
-    print(st.session_state)
+    # print(st.session_state)
 # Punto de Entrada Principal
 if __name__ == "__main__":
     main()
