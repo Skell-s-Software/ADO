@@ -7,7 +7,7 @@ import io
 from time import sleep
 
 # Importacion de Modulos
-from modules.database import SQL_productos_tabla, SQL_crearProducto, SQL_consultaGeneral, SQL_consultaFila, SQL_consultaEspecifica, SQL_edicionEspecifica, SQL_listadoProductos
+from modules.database import SQL_productos_tabla, SQL_crearProducto, SQL_listadoProductos, SQL_buscarProductoPorCodigo, SQL_ProductoEdicion
 
 # Interfaz de Registro de Producto
 def INVregistro():
@@ -60,14 +60,13 @@ def INVregistro():
 def INVlista():
     SQL_productos_tabla()
     datos = SQL_listadoProductos()
-    print(datos)
     tabla = pd.DataFrame(
         datos,
-        columns = ['Codigo', 'Nombre', 'Precio', 'Descripcion', 'stack']
+        columns = ['id', 'Codigo', 'Nombre', 'Descripcion', 'Precio', 'Stack']
     )
     # Mostrar Tabla de Productos
     st.dataframe(
-        tabla,
+        tabla[['Codigo', 'Nombre', 'Descripcion', 'Precio', 'Stack']],
         use_container_width = True,
         hide_index = True,
     )
@@ -109,10 +108,94 @@ def INVeditar():
             type = 'primary',
             icon = ':material/search:'
         )
-    botonEliminar = st.button(
-        "Eliminar Producto de la Base",
-        help = "Al presionar este boton el sistema buscara la codigo del producto en la base para su eliminacion.",
-        use_container_width = True,
-        type = 'secondary',
-        icon = ':material/delete:'
-    )
+        if boton:
+            if codigo:
+                producto = SQL_buscarProductoPorCodigo(codigo)
+                if producto:
+                    st.session_state.productoEdicion = producto
+            else:
+                st.warning("Ingrese un codigo valido")
+    if 'productoEdicion' in st.session_state and st.session_state.productoEdicion and codigo:
+        datos = [st.session_state.productoEdicion]
+        tabla = pd.DataFrame(
+            datos,
+            columns = ['id', 'Codigo', 'Nombre', 'Descripcion', 'Precio', 'Stack']
+        )
+        # Mostrar Tabla de Productos
+        st.dataframe(
+            tabla[['Codigo', 'Nombre', 'Descripcion', 'Precio', 'Stack']],
+            use_container_width = True,
+            hide_index = True,
+        )
+        # Formulario de Edicion
+        with st.form("editar", clear_on_submit = True, enter_to_submit = False):
+            col1, col2 = st.columns(2, vertical_alignment='bottom')
+            with col1:
+                seleccion = st.selectbox(
+                    "Dato a modificar",
+                    [
+                        'Nombre',
+                        'Descripcion',
+                        'Precio'
+                    ],
+                    help = "Seleccione el campo que modificara del Producto",
+                    accept_new_options = False,
+                )
+            with col2:
+                dato = st.text_input(
+                    "Modificacion",
+                    help = "Escriba aqui la Modificado",
+                    placeholder = "Dato Modificado",
+                    icon = ':material/edit:'
+                )
+            boton = st.form_submit_button(
+                "Actualizar dato del Producto",
+                help = "Al presinar este boton, se editara la informacion actual del producto con la informacion proporcionada por usted.",
+                icon = ':material/edit:',
+                type = 'primary',
+                use_container_width = True
+            )
+            if boton:
+                if dato:
+                    SQL_ProductoEdicion(seleccion, dato, codigo)
+                    st.success("Edicion exitosa")
+                    sleep(1)
+                    st.session_state.productoEdicion = SQL_buscarProductoPorCodigo(codigo)
+                    st.rerun()
+        # Formulario para manejar el stack
+        with st.form("stack", clear_on_submit = True, enter_to_submit = False):
+            col1, col2 = st.columns(2, vertical_alignment='bottom')
+            with col1:
+                seleccion = st.selectbox(
+                    "Accion a Realizar",
+                    [
+                        'Sumar',
+                        'Restar',
+                    ],
+                    help = "Seleccione el campo que modificara del Producto",
+                    accept_new_options = False,
+                )
+            with col2:
+                dato = st.number_input(
+                    "Valor",
+                    help = "Escriba aqui la el valor",
+                    placeholder = "Ej: 10",
+                    icon = ':material/edit:',
+                    min_value = 1,
+                    step = 1
+                )
+            boton = st.form_submit_button(
+                "Actualizar Stock",
+                help = "Al presinar este boton, se editara la informacion actual del producto con la informacion proporcionada por usted.",
+                icon = ':material/edit:',
+                type = 'primary',
+                use_container_width = True
+            )
+            if boton:
+                if dato:
+                    cantidad = dato if seleccion == "Sumar" else -dato
+                    SQL_ProductoEdicion('stack', cantidad, codigo)
+                    st.success("Edicion exitosa")
+                    sleep(1)
+                    st.session_state.productoEdicion = SQL_buscarProductoPorCodigo(codigo)
+                    st.rerun()

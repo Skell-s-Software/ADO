@@ -167,7 +167,7 @@ def SQL_crearCliente(cedula: int, nombre: str, telefono: str, correo: str = None
     cursor.close()
     conexion.close()
 
-def SQL_edicionEspecifica(seleccion: str, dato: str, cedula: str, directorio: str = "src/database/ado.db"):
+def SQL_ClientedicionEspecifica(seleccion: str, dato: str, cedula: str, directorio: str = "src/database/ado.db"):
     conexion = sql.connect(directorio)
     cursor = conexion.cursor()
     cursor.execute(f"UPDATE clientes SET {seleccion.lower().replace(" ", "")} = ? WHERE cedula = ?", (dato, cedula))
@@ -197,3 +197,37 @@ def SQL_listadoProductos(directorio: str = "src/database/ado.db"):
     cursor.close()
     conexion.close()
     return resultados
+
+def SQL_buscarProductoPorCodigo(codigo: str, directorio: str = "src/database/ado.db"):
+    conexion = sql.connect(directorio)
+    cursor = conexion.cursor()
+    cursor.execute("""
+        SELECT productos.*, stack.inventario
+        FROM productos
+        LEFT JOIN stack ON productos.codigo = stack.codigo
+        WHERE productos.codigo = ?
+    """, (codigo,))
+    resultado = cursor.fetchone()
+    cursor.close()
+    conexion.close()
+    return resultado  # Devuelve una tupla con los datos del producto y el inventario, o None si no existe
+
+def SQL_ProductoEdicion(seleccion: str, dato: str, codigo: str, directorio: str = "src/database/ado.db"):
+    conexion = sql.connect(directorio)
+    cursor = conexion.cursor()
+    if seleccion == "stack":
+        # Obtener el inventario actual
+        cursor.execute("SELECT inventario FROM stack WHERE codigo = ?", (codigo,))
+        resultado = cursor.fetchone()
+        if resultado is not None:
+            inventario_actual = float(resultado[0])
+            inventario_nuevo = inventario_actual + float(dato)
+            cursor.execute("UPDATE stack SET inventario = ? WHERE codigo = ?", (inventario_nuevo, codigo))
+        else:
+            # Si no existe el registro, lo crea
+            cursor.execute("INSERT INTO stack (codigo, inventario) VALUES (?, ?)", (codigo, dato))
+    else:
+        cursor.execute(f"UPDATE productos SET {seleccion.lower().replace(' ', '')} = ? WHERE codigo = ?", (dato, codigo))
+    conexion.commit()
+    cursor.close()
+    conexion.close()
