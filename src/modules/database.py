@@ -72,6 +72,29 @@ def SQL_clientes_tabla(directorio: str = "src/database/ado.db"):
     cursor.close()
     conexion.close()
 
+def SQL_productos_tabla(directorio: str = "src/database/ado.db"):
+    conexion = sql.connect(directorio)
+    cursor = conexion.cursor()
+    # Creacion de la tabla
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS productos(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            codigo INTEGER NOT NULL,
+            nombre TEXT NOT NULL,
+            descripcion TEXT,
+            precio REAL NOT NULL)
+    """)
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS stack(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            codigo INTEGER NOT NULL,
+            inventario TEXT NOT NULL,
+            FOREIGN KEY (codigo) REFERENCES productos(codigo))
+    """)
+    conexion.commit()
+    cursor.close()
+    conexion.close()
+
 def SQL_consultaEspecifica(parametro: str, condicion: str, tabla: str, columna: str, directorio: str = "src/database/ado.db"):
     conexion = sql.connect(directorio)
     cursor = conexion.cursor()
@@ -151,3 +174,26 @@ def SQL_edicionEspecifica(seleccion: str, dato: str, cedula: str, directorio: st
     conexion.commit()
     cursor.close()
     conexion.close()
+
+def SQL_crearProducto(codigo: str, nombre: str, precio: str, descripcion: str = None, directorio: str = "src/database/ado.db"):
+    conexion = sql.connect(directorio)
+    cursor = conexion.cursor()
+    cursor.execute("INSERT INTO productos (codigo, nombre, descripcion, precio) VALUES (?, ?, ?, ?)", (codigo, nombre, descripcion, precio))
+    conexion.commit()
+    cursor.execute("INSERT INTO stack (codigo, inventario) VALUES (?, ?)", (codigo, "0"))
+    conexion.commit()
+    cursor.close()
+    conexion.close()
+
+def SQL_listadoProductos(directorio: str = "src/database/ado.db"):
+    conexion = sql.connect(directorio)
+    cursor = conexion.cursor()
+    cursor.execute("""
+        SELECT productos.*, stack.inventario
+        FROM productos
+        LEFT JOIN stack ON productos.codigo = stack.codigo
+    """)
+    resultados = cursor.fetchall()
+    cursor.close()
+    conexion.close()
+    return resultados
