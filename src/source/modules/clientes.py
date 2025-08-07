@@ -7,7 +7,7 @@ import io
 from time import sleep
 
 # Importacion de modulos
-from modules.database import SQL_clientes_tabla, SQL_consultaGeneral, SQL_crearCliente, SQL_consultaFila, SQL_edicionEspecifica
+from modules.database import SQL_clientes_tabla, SQL_consultaGeneral, SQL_crearCliente, SQL_consultaFila, SQL_ClientedicionEspecifica
 
 # Interfaz de Registro del Cliente en el Sistema
 def CRegistro():
@@ -139,13 +139,6 @@ def CEdicion():
                     st.session_state.clienteEdicion = cliente
             else:
                 st.warning("Ingrese una cedula valida")
-    botonEliminar = st.button(
-        "Eliminar Cliente de la Base",
-        help = "Al presionar este boton el sistema buscara la cedula del cliente en la base para su edicion.",
-        use_container_width = True,
-        type = 'secondary',
-        icon = ':material/delete:'
-    )
     if 'clienteEdicion' in st.session_state and st.session_state.clienteEdicion and cedula:
         datos = [st.session_state.clienteEdicion]
         tabla = pd.DataFrame(
@@ -177,8 +170,8 @@ def CEdicion():
                 )
             with col2:
                 dato = st.text_input(
-                    "Dato modificado",
-                    help = "Escriba aqui el dato modificado",
+                    "Modificacion",
+                    help = "Escriba aqui la Modificacion",
                     placeholder = "Dato Modificado",
                     icon = ':material/edit:'
                 )
@@ -191,7 +184,7 @@ def CEdicion():
             )
             if boton:
                 if dato:
-                    SQL_edicionEspecifica(seleccion, dato, cedula)
+                    SQL_ClientedicionEspecifica(seleccion, dato, cedula)
                     st.success("Edicion exitosa")
                     sleep(1)
                     st.session_state.clienteEdicion = SQL_consultaFila(cedula, 'cedula', 'clientes')

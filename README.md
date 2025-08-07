@@ -1,13 +1,42 @@
+<!-- Badges (ejemplo) -->
+![Python](https://img.shields.io/badge/Python-3.13.3%2B-blue)
+![Streamlit](https://img.shields.io/badge/Streamlit-1.48.0-FF4B4B)
+![SQLite](https://img.shields.io/badge/SQLite-3-green)
+![License](https://img.shields.io/badge/License-MIT-orange)
+
 # Skell's ADO
 
-Skell's Ado es un software construido en Python utilizando la librería Streamlit y otras para el entorno web y uso. Su funcionalidad se basa en permitirle a diversos departamentos de una empresa pequeña administrar sus respectivas tareas, como manejo de inventario, gestión de clientes, estadísticas y ventas, entre otras... Y todo funcionando en un solo ordenador de manera local que actua como servidor, lo cual permite que sea accesible desde cualquier dispositivo dentro de la red wifi de la empresa mediante un sistema de usuarios.
+![Version](https://img.shields.io/badge/Version-1.0.0-blueviolet)
+![Build](https://img.shields.io/badge/Build-Unknown-brightgreen)
 
-# Características de Skell's ADO
+![Logo de Skell's ADO](./img/logo.png)
 
-1. Portabilidad: A diferencia de otros programas que utilizan bases de datos instaladas en servidores, ADO simplemente necesita ejecutarse en un dispositivo común, y su base de datos se genera en caso de no existir en 1 solo archivo cifrado, lo cual permite movilizar y resguardar la base en casos específicos.
-2. Velocidad y Eficiencia: El software consta con un sistema rápido de consultas a la báse de datos, además de una herramienta nativa de escaneo de QRs y BarCodes, lo cual facilita el manejo e identificación de productos.
-3. Adaptabilidad: Puede ser instalado en cualquier sistema operativo compatible con Python y Streamlit, lo cual abarca desde Windows, MacOS y una gran cantidad de distribuciones de Linux.
-4. Anexabilidad: Se le pueden agregar nuevos modulos sin modificar mucho el código, simplemente modificando el main y las constantes.
+Software de gestión empresarial construido en Python con Streamlit para entornos web. Permite administrar:
 
-# Documentacion
-> Toda la documentacion referente al codigo propio escrito para el funcionamiento e instalacion del programa estan en la carpeta doc
+- Inventario.
+- Clientes.
+- Ventas y Estadísticas.
+- Productos y Inventario.
+
+y más, **en un solo equipo local** que funciona como servidor accesible desde cualquier dispositivo en la red.
+
+## Características Principales
+
+### 1. Portabilidad
+***Base de datos autocontenida*** en un archivo cifrado *(SQLite3)*. No requiere servidores externos.
+
+### 2. Velocidad Y Eficiencia
+Las consultas SQL están ***optimizadas*** y la velocidad de la aplicación no depende
+del hardware del servidor, solo del cliente debido a ser una ***aplicación web.***
+
+### 3. Adaptabilidad
+Puede funcionar en ***cualquier dispositivo*** sea servidor o cliente, el único requisito es la conexión a internet y apertura en la red local.
+
+### 4. Modularidad
+Se pueden agregar ***nuevos modulos*** de forma cási ***automatizada*** simplemente agregando un archivo con lo que se desea mostrar y elaborar en "./src/source/modules" ya que automaticamente ***se agregará al software.***
+
+## Ejecución
+Dentro de "./scripts" se encuentran dos archivos de comandos, ejecute el respectivo para su plataforma, Windows, Linux.
+
+## Documentación
+Toda la documentación técnica está en "./doc" separada en varios archivos por módulo.

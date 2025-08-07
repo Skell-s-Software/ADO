@@ -11,12 +11,12 @@ from constantes import SIDEBAR_VARIANTES
 
 # Importacion de Modulos
 from streamlit_option_menu import option_menu as stmenu
-from modules.database import SQL_server_tabla, SQL_consultaEspecifica, SQL_consultaGeneral, SQL_usuarios_tabla
+from modules.database import SQL_server_tabla, SQL_consultaEspecifica, SQL_consultaGeneral, SQL_usuarios_tabla, SQL_chat_tabla
 from modules.register import pagina_instalacion
 from modules.login import pagina_login, dialog_logout
 from modules.ayuda import pagina_ayuda
 from time import sleep
-from tart import logo
+# from tart import logo
 
 # Importacion de Modulos de Funcionalidad
 from modules.clientes import CRegistro, CListado, CEdicion
@@ -40,6 +40,7 @@ def verificar_instalacion():
     # print(SQL_consultaEspecifica('despliegues', 'variable', 'server', 'valor', BASE_DATOS))
     return int(SQL_consultaEspecifica('despliegues', 'variable', 'server', 'valor', BASE_DATOS))
 def verificar_nuevos_mensajes():
+    SQL_chat_tabla()
     mensajes_db = SQL_consultaGeneral('chat')
     if 'chat' not in st.session_state:
         st.session_state.chat = mensajes_db.copy()
@@ -51,7 +52,7 @@ def verificar_nuevos_mensajes():
         st.session_state.chat = mensajes_db.copy()
 
 def main():
-    logo()
+    # logo()
     # Configuracion del Sitio
     configurar_sitio()
     # Verificar la Instalacion

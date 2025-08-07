@@ -20,7 +20,7 @@ def dialog_logout():
                 key = 'Cerrar'
             )
     CANCELAR = st.button("Cancelar",
-                    type = 'primary',
+                    type = 'secondary',
                     use_container_width = True,
                     key = 'Cancelar'
                 )
