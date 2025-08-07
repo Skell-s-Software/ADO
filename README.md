@@ -1,12 +1,12 @@
 <!-- Badges (ejemplo) -->
-![Python](https://img.shields.io/badge/Python-3,13%2B-blue)
-![Streamlit](https://img.shields.io/badge/Streamlit-1,13,0-FF4B4B)
+![Python](https://img.shields.io/badge/Python-3.13%2B-blue)
+![Streamlit](https://img.shields.io/badge/Streamlit-1.13.0-FF4B4B)
 ![SQLite](https://img.shields.io/badge/SQLite-3-green)
 ![License](https://img.shields.io/badge/License-MIT-orange)
 
 # Skell's ADO
 
-![Version](https://img.shields.io/badge/Version-1,0,0-blueviolet)
+![Version](https://img.shields.io/badge/Version-1.0.0-blueviolet)
 ![Build](https://img.shields.io/badge/Build-Unknown-brightgreen)
 
 ![Logo de Skell's ADO](./img/logo.png)
@@ -33,7 +33,10 @@ del hardware del servidor, solo del cliente debido a ser una ***aplicación web.
 Puede funcionar en ***cualquier dispositivo*** sea servidor o cliente, el único requisito es la conexión a internet y apertura en la red local.
 
 ### 4. Modularidad
-Se pueden agregar ***nuevos modulos*** de forma cási ***automatizada*** simplemente agregando un archivo con lo que se desea mostrar y elaborar en "./src/modules" ya que automaticamente ***se agregará al software.***
+Se pueden agregar ***nuevos modulos*** de forma cási ***automatizada*** simplemente agregando un archivo con lo que se desea mostrar y elaborar en "./src/source/modules" ya que automaticamente ***se agregará al software.***
+
+## Ejecución
+Dentro de "./scripts" se encuentran dos archivos de comandos, ejecute el respectivo para su plataforma, Windows, Linux.
 
 ## Documentación
-Toda la documentación técnica está en "./doc"
+Toda la documentación técnica está en "./doc" separada en varios archivos por módulo.

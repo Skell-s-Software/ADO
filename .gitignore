@@ -1,7 +1,8 @@
 .venv/
 src/test.py
 __pycache__/
-/src/database/ado.db
+/src/source/database/ado.db
+/src/source/tart.py
+/src/source/test.py
 node/node_modules/
-DB Browser for SQLite.lnk
 .streamlit/

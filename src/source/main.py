@@ -16,7 +16,7 @@ from modules.register import pagina_instalacion
 from modules.login import pagina_login, dialog_logout
 from modules.ayuda import pagina_ayuda
 from time import sleep
-from tart import logo
+# from tart import logo
 
 # Importacion de Modulos de Funcionalidad
 from modules.clientes import CRegistro, CListado, CEdicion
@@ -52,7 +52,7 @@ def verificar_nuevos_mensajes():
         st.session_state.chat = mensajes_db.copy()
 
 def main():
-    logo()
+    # logo()
     # Configuracion del Sitio
     configurar_sitio()
     # Verificar la Instalacion
