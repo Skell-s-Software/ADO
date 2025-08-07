@@ -4,3 +4,4 @@ __pycache__/
 /src/database/ado.db
 node/node_modules/
 DB Browser for SQLite.lnk
+.streamlit/
