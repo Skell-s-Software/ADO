@@ -1,5 +1,5 @@
 # Skell's ADO - Documentacion
-*Este documento contiene toda la documentacion referente a los archivos de "src" más no de carpetas internas como "source", el resto de la información está presente en el resto de archivos ".md"*
+*Este documento contiene toda la documentacion referente a los archivos de "src" más no de carpetas internas como "source", el resto de la información está presente en el resto de archivos ".md" cabe aclarar que no toda la documentación está escrita hasta la fecha actual*
 
 # Contenido
 *Todo esta informacion esta sujeta a sufrir cambios en momentos de refactorizacion e inclusive puede llegara no concordar con el estado actual del codigo.*

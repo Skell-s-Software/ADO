@@ -2,7 +2,7 @@
 
 # Constantes generales del programa
 TITULO_PAGINA = "Skell's ADO"
-ICONO_PAGINA = "src/img/iconTemporal.ico"
+ICONO_PAGINA = "../src/source/img/iconTemporal.ico"
 BASE_DATOS = "../src/source/database/ado.db"
 
 # Constantes del Register.py

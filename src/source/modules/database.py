@@ -159,7 +159,7 @@ def SQL_guardarMensaje(user: str, mensaje: str, directorio: str = "../src/source
     cursor.close()
     conexion.close()
 
-def SQL_crearCliente(cedula: int, nombre: str, telefono: str, correo: str = None, direccion: str = None, descripcion: str = None, codigo: str = None, directorio: str = "src/database/ado.db"):
+def SQL_crearCliente(cedula: int, nombre: str, telefono: str, correo: str = None, direccion: str = None, descripcion: str = None, codigo: str = None, directorio: str = "../src/source/database/ado.db"):
     conexion = sql.connect(directorio)
     cursor = conexion.cursor()
     cursor.execute("INSERT INTO clientes (cedula, codigoSocio, nombre, telefono, correo, direccion, descripcion) VALUES (?, ?, ?, ?, ?, ?, ?)", (cedula, codigo, nombre, telefono, correo, direccion, descripcion))

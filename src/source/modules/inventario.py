@@ -52,7 +52,7 @@ def INVregistro():
         if boton:
             if codigo and precio and nombre:
                 SQL_crearProducto(codigo, nombre, precio, descripcion)
-                st.success("¡Cliente registrado exitosamente!")
+                st.success("¡Producto registrado exitosamente!")
             else:
                 st.error("¡Faltan datos por llenar!")
 

@@ -4,10 +4,7 @@
 import streamlit as st
 
 # Importacion de Constantes
-from constantes import TITULO_PAGINA
-from constantes import ICONO_PAGINA
-from constantes import BASE_DATOS
-from constantes import SIDEBAR_VARIANTES
+from constantes import TITULO_PAGINA, ICONO_PAGINA, BASE_DATOS, SIDEBAR_VARIANTES
 
 # Importacion de Modulos
 from streamlit_option_menu import option_menu as stmenu
@@ -16,7 +13,6 @@ from modules.register import pagina_instalacion
 from modules.login import pagina_login, dialog_logout
 from modules.ayuda import pagina_ayuda
 from time import sleep
-# from tart import logo
 
 # Importacion de Modulos de Funcionalidad
 from modules.clientes import CRegistro, CListado, CEdicion
@@ -52,7 +48,6 @@ def verificar_nuevos_mensajes():
         st.session_state.chat = mensajes_db.copy()
 
 def main():
-    # logo()
     # Configuracion del Sitio
     configurar_sitio()
     # Verificar la Instalacion
@@ -112,6 +107,7 @@ def main():
                     TAB = True
                 elif ventana == "Chat Interno":
                     TAB = False
+                    sleep(1)
                     CHAT()
                 elif ventana == "Notificaciones":
                     TAB = False
