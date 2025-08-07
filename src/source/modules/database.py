@@ -4,7 +4,7 @@ import streamlit as st
 
 # Funciones de Creacion de Tablas
 
-def SQL_usuarios_tabla(directorio: str = "src/database/ado.db"):
+def SQL_usuarios_tabla(directorio: str = "../src/source/database/ado.db"):
     conexion = sql.connect(directorio)
     cursor = conexion.cursor()
     # Crear la tabla 'server' si no existe
@@ -20,7 +20,7 @@ def SQL_usuarios_tabla(directorio: str = "src/database/ado.db"):
     cursor.close() # Cerrar el cursor
     conexion.close() # Cerrar la conexion
 
-def SQL_server_tabla(directorio: str ="src/database/ado.db"):
+def SQL_server_tabla(directorio: str = "../src/source/database/ado.db"):
     conexion = sql.connect(directorio)
     cursor = conexion.cursor()
     # Crear la tabla 'server' si no existe
@@ -41,7 +41,7 @@ def SQL_server_tabla(directorio: str ="src/database/ado.db"):
     cursor.close() # Cerrar el cursor
     conexion.close() # Cerrar la conexion
 
-def SQL_chat_tabla(directorio: str = "src/database/ado.db"):
+def SQL_chat_tabla(directorio: str = "../src/source/database/ado.db"):
     conexion = sql.connect(directorio)
     cursor = conexion.cursor()
     # Crear la tabla para almacenar mensajes
@@ -54,7 +54,7 @@ def SQL_chat_tabla(directorio: str = "src/database/ado.db"):
     cursor.close()
     conexion.close()
 
-def SQL_clientes_tabla(directorio: str = "src/database/ado.db"):
+def SQL_clientes_tabla(directorio: str = "../src/source/database/ado.db"):
     conexion = sql.connect(directorio)
     cursor = conexion.cursor()
     # Crear tabla para guardar los clientes
@@ -72,7 +72,7 @@ def SQL_clientes_tabla(directorio: str = "src/database/ado.db"):
     cursor.close()
     conexion.close()
 
-def SQL_productos_tabla(directorio: str = "src/database/ado.db"):
+def SQL_productos_tabla(directorio: str = "../src/source/database/ado.db"):
     conexion = sql.connect(directorio)
     cursor = conexion.cursor()
     # Creacion de la tabla
@@ -95,7 +95,7 @@ def SQL_productos_tabla(directorio: str = "src/database/ado.db"):
     cursor.close()
     conexion.close()
 
-def SQL_consultaEspecifica(parametro: str, condicion: str, tabla: str, columna: str, directorio: str = "src/database/ado.db"):
+def SQL_consultaEspecifica(parametro: str, condicion: str, tabla: str, columna: str, directorio: str = "../src/source/database/ado.db"):
     conexion = sql.connect(directorio)
     cursor = conexion.cursor()
     # Consultar el valor de la variable en la tabla
@@ -105,7 +105,7 @@ def SQL_consultaEspecifica(parametro: str, condicion: str, tabla: str, columna: 
     conexion.close() # Cerrar la conexion
     return resultado[0] if resultado else None  # Retornar el valor encontrado o None si no existe
 
-def SQL_consultaFila(parametro: str, condicion: str, tabla: str, directorio: str = "src/database/ado.db"):
+def SQL_consultaFila(parametro: str, condicion: str, tabla: str, directorio: str = "../src/source/database/ado.db"):
     conexion = sql.connect(directorio)
     cursor = conexion.cursor()
     # Consultar el valor de la variable en la tabla
@@ -115,7 +115,7 @@ def SQL_consultaFila(parametro: str, condicion: str, tabla: str, directorio: str
     conexion.close() # Cerrar la conexion
     return resultado if resultado else None  # Retornar el valor encontrado o None si no existe
 
-def SQL_consultaGeneral(tabla: str, directorio: str = "src/database/ado.db"):
+def SQL_consultaGeneral(tabla: str, directorio: str = "../src/source/database/ado.db"):
     conexion = sql.connect(directorio)
     cursor = conexion.cursor()
     # Consultar todos los registros de la tabla
@@ -125,7 +125,7 @@ def SQL_consultaGeneral(tabla: str, directorio: str = "src/database/ado.db"):
     conexion.close() # Cerrar la conexion
     return resultados  # Retornar todos los registros encontrados
 
-def SQL_crearUsuario(nombre: str, pw: str, token: str="token", cargo: str="Expulsar", directorio: str = "src/database/ado.db"):
+def SQL_crearUsuario(nombre: str, pw: str, token: str="token", cargo: str="Expulsar", directorio: str = "../src/source/database/ado.db"):
     conexion = sql.connect(directorio)
     cursor = conexion.cursor()
     # Verifica si existe el usuario ADMIN
@@ -151,7 +151,7 @@ def SQL_crearUsuario(nombre: str, pw: str, token: str="token", cargo: str="Expul
     conexion.close()
     return None
 
-def SQL_guardarMensaje(user: str, mensaje: str, directorio: str = "src/database/ado.db"):
+def SQL_guardarMensaje(user: str, mensaje: str, directorio: str = "../src/source/database/ado.db"):
     conexion = sql.connect(directorio)
     cursor = conexion.cursor()
     cursor.execute("INSERT INTO chat (usuario, mensaje) VALUES (?, ?)", (user, mensaje))
@@ -167,7 +167,7 @@ def SQL_crearCliente(cedula: int, nombre: str, telefono: str, correo: str = None
     cursor.close()
     conexion.close()
 
-def SQL_ClientedicionEspecifica(seleccion: str, dato: str, cedula: str, directorio: str = "src/database/ado.db"):
+def SQL_ClientedicionEspecifica(seleccion: str, dato: str, cedula: str, directorio: str = "../src/source/database/ado.db"):
     conexion = sql.connect(directorio)
     cursor = conexion.cursor()
     cursor.execute(f"UPDATE clientes SET {seleccion.lower().replace(" ", "")} = ? WHERE cedula = ?", (dato, cedula))
@@ -175,7 +175,7 @@ def SQL_ClientedicionEspecifica(seleccion: str, dato: str, cedula: str, director
     cursor.close()
     conexion.close()
 
-def SQL_crearProducto(codigo: str, nombre: str, precio: str, descripcion: str = None, directorio: str = "src/database/ado.db"):
+def SQL_crearProducto(codigo: str, nombre: str, precio: str, descripcion: str = None, directorio: str = "../src/source/database/ado.db"):
     conexion = sql.connect(directorio)
     cursor = conexion.cursor()
     cursor.execute("INSERT INTO productos (codigo, nombre, descripcion, precio) VALUES (?, ?, ?, ?)", (codigo, nombre, descripcion, precio))
@@ -185,7 +185,7 @@ def SQL_crearProducto(codigo: str, nombre: str, precio: str, descripcion: str = 
     cursor.close()
     conexion.close()
 
-def SQL_listadoProductos(directorio: str = "src/database/ado.db"):
+def SQL_listadoProductos(directorio: str = "../src/source/database/ado.db"):
     conexion = sql.connect(directorio)
     cursor = conexion.cursor()
     cursor.execute("""
@@ -198,7 +198,7 @@ def SQL_listadoProductos(directorio: str = "src/database/ado.db"):
     conexion.close()
     return resultados
 
-def SQL_buscarProductoPorCodigo(codigo: str, directorio: str = "src/database/ado.db"):
+def SQL_buscarProductoPorCodigo(codigo: str, directorio: str = "../src/source/database/ado.db"):
     conexion = sql.connect(directorio)
     cursor = conexion.cursor()
     cursor.execute("""
@@ -212,7 +212,7 @@ def SQL_buscarProductoPorCodigo(codigo: str, directorio: str = "src/database/ado
     conexion.close()
     return resultado  # Devuelve una tupla con los datos del producto y el inventario, o None si no existe
 
-def SQL_ProductoEdicion(seleccion: str, dato: str, codigo: str, directorio: str = "src/database/ado.db"):
+def SQL_ProductoEdicion(seleccion: str, dato: str, codigo: str, directorio: str = "../src/source/database/ado.db"):
     conexion = sql.connect(directorio)
     cursor = conexion.cursor()
     if seleccion == "stack":

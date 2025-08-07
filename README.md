@@ -1,6 +1,6 @@
 <!-- Badges (ejemplo) -->
-![Python](https://img.shields.io/badge/Python-3.13%2B-blue)
-![Streamlit](https://img.shields.io/badge/Streamlit-1.13.0-FF4B4B)
+![Python](https://img.shields.io/badge/Python-3.13.3%2B-blue)
+![Streamlit](https://img.shields.io/badge/Streamlit-1.48.0-FF4B4B)
 ![SQLite](https://img.shields.io/badge/SQLite-3-green)
 ![License](https://img.shields.io/badge/License-MIT-orange)
 
