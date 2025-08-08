@@ -60,10 +60,12 @@ def INVregistro():
 def INVlista():
     SQL_productos_tabla()
     datos = SQL_listadoProductos()
+    st.write(datos)
     tabla = pd.DataFrame(
         datos,
         columns = ['id', 'Codigo', 'Nombre', 'Descripcion', 'Precio', 'Stack']
     )
+    st.write(tabla)
     # Mostrar Tabla de Productos
     st.dataframe(
         tabla[['Codigo', 'Nombre', 'Descripcion', 'Precio', 'Stack']],
