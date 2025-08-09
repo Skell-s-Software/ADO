@@ -63,7 +63,7 @@ try:
             print(nuevoCodigoQR) # Imprime la cadena directamente
 
             print("\n" + "—" * 70)
-            print(f"Skell's CRM ejecutándose en: {urlApp}\n")
+            print(f"Skell's ADO ejecutándose en: {urlApp}\n")
             print("Presiona Ctrl+C aquí para detener la aplicación.")
             print("—" * 70)
 
@@ -78,11 +78,11 @@ try:
         try:
             proceso.wait()
         except KeyboardInterrupt:
-            print("\nDeteniendo Skell's CRM...")
+            print("\nDeteniendo Skell's ADO...")
             if proceso and proceso.poll() is None:
                  proceso.terminate()
                  proceso.wait()
-            print("Skell's CRM detenido.")
+            print("Skell's ADO detenido.")
 
     else:
         print("\nNo se pudo encontrar el 'Network URL' en la salida de Streamlit después de esperar.")
