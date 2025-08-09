@@ -4,7 +4,7 @@
 import streamlit as st
 
 # Importacion de Constantes
-from constantes import TITULO_PAGINA, ICONO_PAGINA, BASE_DATOS, SIDEBAR_VARIANTES
+from constantes import TITULO_PAGINA, ICONO_PAGINA , ICONO_SIDEBAR, LOGOTIPO, BASE_DATOS, SIDEBAR_VARIANTES
 
 # Importacion de Modulos
 from streamlit_option_menu import option_menu as stmenu
@@ -27,6 +27,7 @@ def configurar_sitio():
         page_icon=ICONO_PAGINA,
         layout="wide"
     )
+    st.logo(LOGOTIPO, icon_image=ICONO_SIDEBAR)
     #if 'despliegue' not in st.session_state:
     st.session_state.despliegue = verificar_instalacion()
 def verificar_instalacion():
