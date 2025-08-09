@@ -4,10 +4,7 @@
 import streamlit as st
 
 # Importacion de Constantes
-from constantes import TITULO_PAGINA
-from constantes import ICONO_PAGINA
-from constantes import BASE_DATOS
-from constantes import SIDEBAR_VARIANTES
+from constantes import TITULO_PAGINA, ICONO_PAGINA , ICONO_SIDEBAR, LOGOTIPO, BASE_DATOS, SIDEBAR_VARIANTES
 
 # Importacion de Modulos
 from streamlit_option_menu import option_menu as stmenu
@@ -16,7 +13,6 @@ from modules.register import pagina_instalacion
 from modules.login import pagina_login, dialog_logout
 from modules.ayuda import pagina_ayuda
 from time import sleep
-# from tart import logo
 
 # Importacion de Modulos de Funcionalidad
 from modules.clientes import CRegistro, CListado, CEdicion
@@ -29,8 +25,9 @@ def configurar_sitio():
     st.set_page_config(
         page_title=TITULO_PAGINA,
         page_icon=ICONO_PAGINA,
-        layout="centered"
+        layout="wide"
     )
+    st.logo(LOGOTIPO, icon_image=ICONO_SIDEBAR)
     #if 'despliegue' not in st.session_state:
     st.session_state.despliegue = verificar_instalacion()
 def verificar_instalacion():
@@ -42,8 +39,7 @@ def verificar_instalacion():
 def verificar_nuevos_mensajes():
     SQL_chat_tabla()
     mensajes_db = SQL_consultaGeneral('chat')
-    if 'chat' not in st.session_state:
-        st.session_state.chat = mensajes_db.copy()
+    if 'chat' not in st.session_state: st.session_state.chat = mensajes_db.copy()
     elif len(mensajes_db) > len(st.session_state.chat):
         nuevos = mensajes_db[len(st.session_state.chat):]
         for mensaje in nuevos:
@@ -52,7 +48,6 @@ def verificar_nuevos_mensajes():
         st.session_state.chat = mensajes_db.copy()
 
 def main():
-    # logo()
     # Configuracion del Sitio
     configurar_sitio()
     # Verificar la Instalacion
@@ -66,10 +61,8 @@ def main():
                     SIDEBAR_VARIANTES["LOGIN"]["OPCIONES"],
                     icons=SIDEBAR_VARIANTES["LOGIN"]["ICONOS"]
                 )
-            if ventana == "Principal":
-                pagina_login()
-            else:
-                pagina_ayuda()
+            if ventana == "Principal": pagina_login()
+            else: pagina_ayuda()
         else:
             verificar_nuevos_mensajes()
             if st.session_state.cargo != None and st.session_state.usuario != None:
@@ -85,8 +78,7 @@ def main():
                         use_container_width = True,
                         icon = ':material/logout:'
                     )
-                    if LOGUOT:
-                        dialog_logout()
+                    if LOGUOT: dialog_logout()
                 st.write(f"Bienvenido {st.session_state.usuario}, {st.session_state.cargo}")
                 TAB = None
                 if ventana == "Información y Ayuda":
@@ -112,6 +104,7 @@ def main():
                     TAB = True
                 elif ventana == "Chat Interno":
                     TAB = False
+                    sleep(1)
                     CHAT()
                 elif ventana == "Notificaciones":
                     TAB = False
@@ -125,25 +118,16 @@ def main():
                         icons = ICONOS_TAB,
                         orientation = 'horizontal'
                     )
-                    if tab == "Registrar Clientes":
-                        CRegistro()
-                    elif tab == "Lista de Clientes":
-                        CListado()
-                    elif tab == "Edición de Clientes":
-                        CEdicion()
-                    elif tab == "Registrar Producto":
-                        INVregistro()
-                    elif tab == "Lista de Productos":
-                        INVlista()
-                    elif tab == "Edición de Productos":
-                        INVeditar()
-                    elif tab == "Realizar Venta":
-                        VENventas()
-                    elif tab == "Historial de Ventas":
-                        pass
-                    elif tab == "Pagos Pendientes":
-                        pass
-    # print(st.session_state)
+                    if tab == "Registrar Clientes":  CRegistro()
+                    elif tab == "Lista de Clientes": CListado()
+                    elif tab == "Edición de Clientes": CEdicion()
+                    elif tab == "Registrar Producto": INVregistro()
+                    elif tab == "Lista de Productos": INVlista()
+                    elif tab == "Edición de Productos": INVeditar()
+                    elif tab == "Realizar Venta": VENventas()
+                    elif tab == "Historial de Ventas": pass
+                    elif tab == "Pagos Pendientes": pass
+
 # Punto de Entrada Principal
 if __name__ == "__main__":
     main()

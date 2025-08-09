@@ -9,7 +9,7 @@
 ![Version](https://img.shields.io/badge/Version-1.0.0-blueviolet)
 ![Build](https://img.shields.io/badge/Build-Unknown-brightgreen)
 
-![Logo de Skell's ADO](./img/logo.png)
+![Logo de Skell's ADO](./img/logotipo.png)
 
 Software de gestión empresarial construido en Python con Streamlit para entornos web. Permite administrar:
 
